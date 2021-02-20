@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class RandomIterationFractalGenerator : MonoBehaviour
 {
-    public RawImage rawImage;
-    public Color color;
+    public RectTransform canvas;
+    public SettingsManager settingsManager;
+
+    RawImage rawImage;
+    Color color;
 
     float x = 0;
     float y = 0;
@@ -14,18 +17,24 @@ public class RandomIterationFractalGenerator : MonoBehaviour
 
     void Start()
     {
+        rawImage = canvas.GetComponent<RawImage>();
+        //canvas.sizeDelta = new Vector2((int)(Screen.width * 0.96f), (int)(Screen.height * 0.96f));
         texture = new Texture2D(width: (int)(Screen.width * 0.96f), height: (int)(Screen.height * 0.96f));
+        
         rawImage.texture = texture;
     }
 
     void Update()
     {
-        drawPixel();
+		for (int i = 0; i < 100; i++)
+		{
+            drawPixel();
+		}
         texture.Apply();
     }
     void drawPixel()
 	{
-        texture.SetPixel((int)(x * 50 + Screen.width / 2), (int)(y * 50 + Screen.height / 3), color);
+        texture.SetPixel((int)(x * 50 + Screen.width / 2), (int)(y * 50 + Screen.height / 3), settingsManager.fractalColor);
 
         float nextX, nextY;
 

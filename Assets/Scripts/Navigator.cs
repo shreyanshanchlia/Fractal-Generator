@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Utilities
 {
@@ -7,6 +8,7 @@ namespace Utilities
 	/// </summary>
 	public class Navigator : MonoBehaviour
 	{
+		public bool zoomOverUI = false;
 		[Header("Screen Zoom")]
 		[SerializeField][Range(-1, -0.0001f)] float zoomSensitivity = -0.02f;
 		[SerializeField] float minZoomLevel = 2, maxZoomLevel = 30;
@@ -42,7 +44,7 @@ namespace Utilities
 			//mouse zoom
 			mouseScrollDelta = Input.mouseScrollDelta.y;    //x axis is ignored
 
-			if (mouseScrollDelta != 0f)
+			if (mouseScrollDelta != 0f && (zoomOverUI || !EventSystem.current.IsPointerOverGameObject()))
 			{
 				zoomLevel = zoomLevel + mouseScrollDelta * zoomSensitivity * zoomLevel;
 				SetZoomLevel(zoomLevel);

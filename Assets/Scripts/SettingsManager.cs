@@ -12,6 +12,10 @@ public class SettingsManager : MonoBehaviour
 	[Header("App State")]
 	public bool isRunning;
 
+	[Header("Running Buttons")]
+	public GameObject playButton;
+	public GameObject pauseButton;
+
 	[Header("UI Settings")]
 	public Color errorColor;
 
@@ -33,6 +37,9 @@ public class SettingsManager : MonoBehaviour
 	public uint iterationSpeed;
 	public TMP_InputField speedInputField;
 
+	public int totalIterations;
+	public TMP_InputField totalIterationsInputField;
+
 	[Header("IFS")]
 	public List<float[]> ifsCode;
 	public GameObject ifsInputTable;
@@ -52,10 +59,21 @@ public class SettingsManager : MonoBehaviour
 		_colorPalette.color = ColorPalette.ColorPaletteColors._FFFFFF;
 		SetBackgroundColorButtons(_colorPalette);
 
-		_colorPalette.color = ColorPalette.ColorPaletteColors._E8AF5A;
+		_colorPalette.color = ColorPalette.ColorPaletteColors._4D4D4D;
 		SetFractalColorButtons(_colorPalette);
 	}
-
+	public void StartRunning()
+	{
+		isRunning = true;
+		playButton.SetActive(false);
+		pauseButton.SetActive(true);
+	}
+	public void StopRunning()
+	{
+		isRunning = false;
+		playButton.SetActive(true);
+		pauseButton.SetActive(false);
+	}
 	public void SetBackgroundColorButtons(ColorPalette colorPalette)
 	{
 		ColorPalette.ColorPaletteColors paletteColor = colorPalette.color;
@@ -121,6 +139,18 @@ public class SettingsManager : MonoBehaviour
 			speedInputField.GetComponent<Image>().color = errorColor;
 		}
 	}
+	public void SetIterationCount(string _iterationCount)
+	{
+		if (int.TryParse(_iterationCount, out totalIterations))
+		{
+			totalIterations = int.Parse(_iterationCount);
+			totalIterationsInputField.GetComponent<Image>().color = Color.white;
+		}
+		else
+		{
+			totalIterationsInputField.GetComponent<Image>().color = errorColor;
+		}
+	}
 	GameObject lastIFSRow;
 	public void AddIFSRow()
 	{
@@ -144,16 +174,17 @@ public class SettingsManager : MonoBehaviour
 		string _ifsmatrixString = "";
 		foreach (float[] ifsRow in ifsCode)
 		{
-			_ifsmatrixString = $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}\n";
+			_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}\n";
 		}
 		print(_ifsmatrixString);
 	}
 	public void CopyIFSMatrixToClipboard()
 	{
 		string _ifsmatrixString = "";
+		char newline = '\n';
 		foreach (float[] ifsRow in ifsCode)
 		{
-			_ifsmatrixString = $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}\n";
+			_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}{newline}";
 		}
 		GUIUtility.systemCopyBuffer = _ifsmatrixString;
 	}
@@ -165,12 +196,10 @@ public class SettingsManager : MonoBehaviour
 		List<float[]> tempifsCode = new List<float[]>();
 		try
 		{
-			string[] _ifsmatrixStrings = _ifsmatrixString.Split('\n');
+			string[] _ifsmatrixStrings = _ifsmatrixString.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
 			int _currentRowNumber = 0;
 			foreach (string ifsRowClipBoard in _ifsmatrixStrings)
 			{
-				print(ifsRowClipBoard);
-
 				float[] rowValues = System.Array.ConvertAll(ifsRowClipBoard.Split(new char[] { ' ', '\t', ',' }, System.StringSplitOptions.RemoveEmptyEntries), float.Parse);
 				tempifsCode.Add(new float[7]);
 				
@@ -189,10 +218,10 @@ public class SettingsManager : MonoBehaviour
 				_currentRowNumber++;
 			}
 		}
-		catch
+		catch (System.Exception e)
 		{
 			validClipboard = false;
-			Debug.LogError($"Invalid Clipboard\n {GUIUtility.systemCopyBuffer}");
+			Debug.LogError($"Invalid Clipboard\n {GUIUtility.systemCopyBuffer}\n\n {e.Message}");
 		}
 
 		if (validClipboard)
@@ -210,6 +239,7 @@ public class SettingsManager : MonoBehaviour
 				}
 				_rowNumber++;
 			}
+			ifsCode = tempifsCode;
 		}
 	}
 	public void ResetIFSTAble()

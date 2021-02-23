@@ -9,7 +9,7 @@ This application can render fractals by putting the IFS code.
 ### Simplicity Features
 1. Copy the matrix to clipboard for redeploying / showing off :stuck_out_tongue_winking_eye:
 1. Paste the matrix from clipboard, and it will be automatically serialized into matrix for you.
-1. Remove the matrix. </br>
+1. Delete the matrix for deploying a new matrix. </br>
 
 #### <b> Sample IFS Matrix (Barnsley Fern): </b><br>
 0 0 0 0.16 0 0 0.01 <br>

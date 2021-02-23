@@ -9,6 +9,7 @@ public class ChangeOrigin : MonoBehaviour
 
 	private void OnEnable()
 	{
+		settingsManager.originMarker.SetActive(true);
 		settingsManager.ResetCamera();
 	}
 	private void Update()

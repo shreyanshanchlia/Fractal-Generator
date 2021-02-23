@@ -17,6 +17,9 @@ namespace Utilities
 		[SerializeField][Range(0.1f, 25f)] float navigationSensitivity = 8.7f;
 		[SerializeField][Range(0f, 1f)] float zoomToNavigationRelation = 0.1f;
 
+		[Header("Hide Origin")]
+		public GameObject originMarker;
+
 		#region camera declaration
 #pragma warning disable CS0108
 		public Camera camera;
@@ -53,12 +56,20 @@ namespace Utilities
 			{
 				zoomLevel = zoomLevel + mouseScrollDelta * zoomSensitivity * zoomLevel;
 				SetZoomLevel(zoomLevel);
+				if (Mathf.Abs(mouseScrollDelta) != 0)
+				{
+					originMarker.SetActive(false);
+				}
 			}
 
 			//mouse navigation
 			if (Input.GetMouseButton(0) && isFocused && (zoomOverUI || !EventSystem.current.IsPointerOverGameObject()))
 			{
 				mouseMoveDelta = prevMousePosition - Input.mousePosition;
+				if (Mathf.Abs(mouseMoveDelta.x) + Mathf.Abs(mouseMoveDelta.y) != 0)
+				{
+					originMarker.SetActive(false);
+				}
 				MoveCamera();
 			}
 			isFocused = true;

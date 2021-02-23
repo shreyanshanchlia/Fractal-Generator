@@ -75,6 +75,7 @@ public class SettingsManager : MonoBehaviour
 	{
 		Vector3 markerPosition = Camera.main.ScreenToWorldPoint(fractalOffset);
 		markerPosition -= Camera.main.transform.position;
+		originMarker.SetActive(true);
 		originMarker.transform.position = markerPosition;
 	}
 	public void StartRunning()

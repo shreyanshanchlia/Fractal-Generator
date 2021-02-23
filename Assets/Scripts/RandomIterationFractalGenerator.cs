@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// This script uses values in Settings Manager to generate a fractal.
@@ -12,6 +13,7 @@ public class RandomIterationFractalGenerator : MonoBehaviour
     
     public SettingsManager settingsManager;
 
+    public TextMeshProUGUI iterationCountText;
 
     int timesIterated;
     float x = 0;
@@ -28,6 +30,8 @@ public class RandomIterationFractalGenerator : MonoBehaviour
         rawImage.texture = texture;
 
         timesIterated = 0;
+        iterationCountText.text = $"Iterated {timesIterated} times!";
+
         settingsManager.StopRunning();
     }
 
@@ -43,6 +47,8 @@ public class RandomIterationFractalGenerator : MonoBehaviour
                 drawPixel();
                 timesIterated++;
             }
+            //update UI.
+            iterationCountText.text = $"Iterated {timesIterated} times!";
             //apply changes to the texture.
             texture.Apply();
         }

@@ -1,10 +1,13 @@
 # Fractal Generator
-This application can render fractals by putting the IFS code.
+This application can render [fractals](https://en.wikipedia.org/wiki/Fractal) by putting the IFS code.
 
 ### INPUT IFS code
-- Enter a, b, c, d, e, f, p and add multiple rows for extending the matrix.
+- Enter a, b, c, d, e, f, p in [IFS Matrix](https://en.wikipedia.org/wiki/Iterated_function_system) and add multiple rows for extending the matrix.
 
 ## Features
+
+### Algorithms
+* [Random iteration algorithm](https://en.wikipedia.org/wiki/Randomized_algorithm)
 
 ### Simplicity Features
 1. Copy the matrix to clipboard for redeploying / showing off :stuck_out_tongue_winking_eye:
@@ -31,3 +34,9 @@ Click on the plane to change the point of origin.
 ### Beautification Features
 - Change Background Color - Use already given presets or type your hex code
 - Change Fractal Color - Use already given presets or type your hex code
+
+## Development Guidlines
+Made with unity 2019.4.17f1
+For scripts, goto Assets -> Scripts.
+Fork and write issue before pull request, if not a collaborator.
+Readme commits will not be accepted unless very important.

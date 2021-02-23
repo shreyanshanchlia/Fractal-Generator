@@ -43,6 +43,7 @@ public class SettingsManager : MonoBehaviour
 	public TMP_InputField totalIterationsInputField;
 
 	[Header("IFS")]
+	public int ifsRowLength;
 	public List<float[]> ifsCode;
 	public GameObject ifsInputTable;
 	public GameObject ifsRowPrefab;
@@ -55,7 +56,7 @@ public class SettingsManager : MonoBehaviour
 	private void Start()
 	{
 		ifsCode = new List<float[]>();
-		ifsCode.Add(new float[7]);
+		ifsCode.Add(new float[ifsRowLength]);
 
 		ColorPalette _colorPalette = new ColorPalette();
 		_colorPalette.color = ColorPalette.ColorPaletteColors._FFFFFF;
@@ -171,7 +172,7 @@ public class SettingsManager : MonoBehaviour
 	public void AddIFSRow()
 	{
 		GameObject newIFSRow = Instantiate(ifsRowPrefab, ifsInputTable.transform);
-		ifsCode.Add(new float[7]);
+		ifsCode.Add(new float[ifsRowLength]);
 		newIFSRow.name = $"F ({ifsCode.Count})";
 		foreach (IFSElementID ifsElement in newIFSRow.transform.GetComponentsInChildren<IFSElementID>(true))
 		{
@@ -191,7 +192,14 @@ public class SettingsManager : MonoBehaviour
 		string _ifsmatrixString = "";
 		foreach (float[] ifsRow in ifsCode)
 		{
-			_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}\n";
+			if (ifsRow.Length == 7)
+			{
+				_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}\n";
+			}
+			else if (ifsRow.Length == 6)
+			{
+				_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]}\n";
+			}
 		}
 		print(_ifsmatrixString);
 	}
@@ -201,7 +209,14 @@ public class SettingsManager : MonoBehaviour
 		char newline = '\n';
 		foreach (float[] ifsRow in ifsCode)
 		{
-			_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}{newline}";
+			if (ifsRow.Length == 7)
+			{
+				_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]} {ifsRow[6]}{newline}";
+			}
+			else if (ifsRow.Length == 6)
+			{
+				_ifsmatrixString += $"{ifsRow[0]} {ifsRow[1]} {ifsRow[2]} {ifsRow[3]} {ifsRow[4]} {ifsRow[5]}{newline}";
+			}
 		}
 		GUIUtility.systemCopyBuffer = _ifsmatrixString;
 	}
@@ -218,11 +233,11 @@ public class SettingsManager : MonoBehaviour
 			foreach (string ifsRowClipBoard in _ifsmatrixStrings)
 			{
 				float[] rowValues = System.Array.ConvertAll(ifsRowClipBoard.Split(new char[] { ' ', '\t', ',' }, System.StringSplitOptions.RemoveEmptyEntries), float.Parse);
-				tempifsCode.Add(new float[7]);
+				tempifsCode.Add(new float[ifsRowLength]);
 				
-				if (rowValues.Length == 7 || rowValues.Length == 0)
+				if (rowValues.Length == ifsRowLength || rowValues.Length == 0)
 				{
-					for (int i = 0; i < 7; i++)
+					for (int i = 0; i < ifsRowLength; i++)
 					{
 						tempifsCode[_currentRowNumber][i] = rowValues[i];
 					}

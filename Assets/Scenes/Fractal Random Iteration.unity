@@ -10631,6 +10631,7 @@ MonoBehaviour:
   speedInputField: {fileID: 65163413}
   totalIterations: 10000
   totalIterationsInputField: {fileID: 190450867}
+  ifsRowLength: 7
   ifsInputTable: {fileID: 741834112}
   ifsRowPrefab: {fileID: 5001451326262190799, guid: 76d2fd5d6fdec5e4884404a1c4abe0f5,
     type: 3}

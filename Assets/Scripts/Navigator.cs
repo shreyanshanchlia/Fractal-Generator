@@ -50,7 +50,7 @@ namespace Utilities
 			}
 
 			//mouse navigation
-			if (Input.GetMouseButton(0) && isFocused)
+			if (Input.GetMouseButton(0) && isFocused && (zoomOverUI || !EventSystem.current.IsPointerOverGameObject()))
 			{
 				mouseMoveDelta = prevMousePosition - Input.mousePosition;
 				MoveCamera();

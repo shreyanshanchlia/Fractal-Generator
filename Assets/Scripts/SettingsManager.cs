@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -11,6 +10,7 @@ public class SettingsManager : MonoBehaviour
 
 	[Header("App State")]
 	public bool isRunning;
+	public GameObject originMarker;
 
 	[Header("Running Buttons")]
 	public GameObject playButton;
@@ -31,6 +31,8 @@ public class SettingsManager : MonoBehaviour
 	public Color fractalColor;
 
 	[Header("Fractal Properties")]
+	public Vector2 fractalOffset;
+
 	public uint fractalSize;
 	public TMP_InputField sizeInputField;
 
@@ -61,6 +63,19 @@ public class SettingsManager : MonoBehaviour
 
 		_colorPalette.color = ColorPalette.ColorPaletteColors._4D4D4D;
 		SetFractalColorButtons(_colorPalette);
+
+		fractalOffset = new Vector2(Screen.width / 2, Screen.height / 2);
+	}
+	public void ResetCamera()
+	{
+		Camera.main.transform.position = new Vector3(0, 0, -10);
+		Camera.main.orthographicSize = 10;
+	}
+	public void AdjustMarker()
+	{
+		Vector3 markerPosition = Camera.main.ScreenToWorldPoint(fractalOffset);
+		markerPosition -= Camera.main.transform.position;
+		originMarker.transform.position = markerPosition;
 	}
 	public void StartRunning()
 	{
@@ -168,6 +183,7 @@ public class SettingsManager : MonoBehaviour
 	{
 		ifsCode[elementID.rowID - 1][(int)elementID.columnType] = elementID.value;
 	}
+
 	[ContextMenu("Print IFS Matrix")]
 	public void printIFSMAtrix()
 	{

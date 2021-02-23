@@ -2,6 +2,7 @@
 
 public class ColorPalette : MonoBehaviour
 {
+	//Sample colors
     public enum ColorPaletteColors
 	{
 		_FFFFFF,

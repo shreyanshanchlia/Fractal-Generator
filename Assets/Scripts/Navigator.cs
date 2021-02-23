@@ -19,7 +19,7 @@ namespace Utilities
 
 		#region camera declaration
 #pragma warning disable CS0108
-		Camera camera;
+		public Camera camera;
 #pragma warning restore CS0108
 		#endregion
 
@@ -33,7 +33,6 @@ namespace Utilities
 
 		private void Start()
 		{
-			camera = Camera.main;
 			zoomLevel = camera.orthographicSize;
 
 			prevMousePosition = Input.mousePosition;

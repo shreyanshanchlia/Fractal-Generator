@@ -31,6 +31,12 @@ namespace Utilities
 		Vector3 moveWorldDelta;
 		float screenCalibSensitivity;
 
+		private void Awake()
+		{
+#if UNITY_STANDALONE
+			Screen.fullScreen = false;
+#endif
+		}
 		private void Start()
 		{
 			zoomLevel = camera.orthographicSize;

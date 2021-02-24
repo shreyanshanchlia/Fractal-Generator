@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 
 public class DeterministicFractalGenerator : MonoBehaviour
@@ -12,9 +12,10 @@ public class DeterministicFractalGenerator : MonoBehaviour
     public GameObject SquarePrefab;
     public GameObject renderHolder;
 
+    int len;
     int timesIterated;
 
-    public Queue<GameObject> R1, R2;
+    public Queue<GameObject> R1;
     GameObject latestRender;
     Vector3 transformOperation;
 
@@ -22,16 +23,17 @@ public class DeterministicFractalGenerator : MonoBehaviour
     public void Start()
     {
         R1 = new Queue<GameObject>();
-        R2 = new Queue<GameObject>();
+        ChangeBackgroundColor();
 
-        while (renderHolder.transform.childCount > 0)
-        {
-            Destroy(renderHolder.transform.GetChild(0).gameObject);
-        }
+        GameObject _renderHolder = new GameObject("Render Holder");
+        Destroy(renderHolder);
+        renderHolder = _renderHolder;
 
         latestRender = Instantiate(SquarePrefab, renderHolder.transform);
         latestRender.name = timesIterated.ToString();
         R1.Enqueue(latestRender);
+
+        len = 1;
 
         timesIterated = 0;
         iterationCountText.text = $"Iterated {timesIterated} times!";
@@ -45,15 +47,25 @@ public class DeterministicFractalGenerator : MonoBehaviour
         //if allowed to render.
         if (settingsManager.isRunning && (timesIterated < settingsManager.totalIterations || settingsManager.totalIterations < 0))
         {
-            int len = R1.Count;
-			for (int i = 0; i < len; i++)
+            int i = 0;
+            while (i < len && i < settingsManager.iterationSpeed)
 			{
                 draw();
+                i++;
 			}
-            timesIterated++;
-            //update UI.
+            len -= i;
+
+            if (len <= 0)
+            {
+                len = R1.Count;
+                timesIterated++;
+                
+                //update UI.
+                iterationCountText.text = $"Iterated {timesIterated} times!";
+            }
         }
     }
+    float distance, delta;
     /// <summary>
     /// Deterministic Algorithm to render all iterations.
     /// </summary>
@@ -62,19 +74,44 @@ public class DeterministicFractalGenerator : MonoBehaviour
         //draw image
         GameObject r = R1.Dequeue();
 
-		foreach (float[] row in settingsManager.ifsCode)
-		{
+        foreach (float[] row in settingsManager.ifsCode)
+        {
             latestRender = Instantiate(SquarePrefab, renderHolder.transform);
+            latestRender.GetComponent<SpriteRenderer>().color = settingsManager.fractalColor;
             latestRender.name = timesIterated.ToString();
-            R2.Enqueue(latestRender);
 
-            //scale
-            transformOperation.x = r.transform.localScale.x * row[0]
-                + r.transform.localScale.y * row[1];
-            transformOperation.y = r.transform.localScale.x * row[2]
-                + r.transform.localScale.y * row[3];
-            latestRender.transform.localScale = transformOperation;
+            if (row[0] != 0 || row[1] != 0)
+            {
+                distance = Mathf.Sqrt(row[0] * row[0] + row[1] * row[1]);
+                delta = row[0] * row[3] - row[1] * row[2];
 
+                //scale new
+                transformOperation.x = r.transform.localScale.x * distance;
+                transformOperation.y = r.transform.localScale.y * delta / distance;
+                transformOperation.z = 1;
+                latestRender.transform.localScale = transformOperation;
+
+                //rotate
+                transformOperation.x = transformOperation.y = 0;
+                transformOperation.z = r.transform.localRotation.eulerAngles.z + row[1] / Mathf.Abs(row[1]) * Mathf.Acos(row[0] / distance) * Mathf.Rad2Deg;
+                latestRender.transform.eulerAngles = transformOperation;
+            }
+			else
+			{
+                distance = Mathf.Sqrt(row[2] * row[2] + row[3] * row[3]);
+                delta = row[0] * row[3] - row[1] * row[2];
+
+                //scale new
+                transformOperation.x = r.transform.localScale.x * delta / distance;
+                transformOperation.y = r.transform.localScale.y * distance;
+                transformOperation.z = 1;
+                latestRender.transform.localScale = transformOperation;
+
+                //rotate
+                transformOperation.x = transformOperation.y = 0;
+                transformOperation.z = r.transform.localRotation.eulerAngles.z + 90 - row[3] / Mathf.Abs(row[3]) * Mathf.Acos(row[2] / distance) * Mathf.Rad2Deg;
+                latestRender.transform.eulerAngles = transformOperation;
+            }
             //translate
             transformOperation.x = r.transform.position.x * row[0]
                 + r.transform.position.y * row[1] + row[4];
@@ -85,6 +122,14 @@ public class DeterministicFractalGenerator : MonoBehaviour
             R1.Enqueue(latestRender);
         }
         Destroy(r);
-        R2 = new Queue<GameObject>();
+    }
+    public void ChangeBackgroundColor()
+	{
+        StartCoroutine(ChangeBackgroundAfterFrame());
+	}
+    IEnumerator ChangeBackgroundAfterFrame()
+    {
+        yield return null;
+        Camera.main.backgroundColor = settingsManager.backgroundColor;
     }
 }

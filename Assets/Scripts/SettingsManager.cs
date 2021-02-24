@@ -48,9 +48,12 @@ public class SettingsManager : MonoBehaviour
 	public GameObject ifsInputTable;
 	public GameObject ifsRowPrefab;
 
+	float CameraSize;
+
 	private void Awake()
 	{
 		instance = this;
+		CameraSize = Camera.main.orthographicSize;
 	}
 
 	private void Start()
@@ -70,7 +73,7 @@ public class SettingsManager : MonoBehaviour
 	public void ResetCamera()
 	{
 		Camera.main.transform.position = new Vector3(0, 0, -10);
-		Camera.main.orthographicSize = 10;
+		Camera.main.orthographicSize = CameraSize;
 	}
 	public void AdjustMarker()
 	{
@@ -122,10 +125,10 @@ public class SettingsManager : MonoBehaviour
 		Color _color;
 		if (ColorUtility.TryParseHtmlString($"#{_colorHex}", out _color))
 		{
-			fractalColorHex.text = _colorHex;
-			fractalColorHex.GetComponent<Image>().color = Color.white;
 			fractalColor = _color;
 			selectedFractalColor.color = _color;
+			fractalColorHex.text = _colorHex;
+			fractalColorHex.GetComponent<Image>().color = Color.white;
 		}
 		else //wrong input
 		{

@@ -54,7 +54,7 @@ namespace Utilities
 
 			if (mouseScrollDelta != 0f && (zoomOverUI || !EventSystem.current.IsPointerOverGameObject()))
 			{
-				zoomLevel = zoomLevel + mouseScrollDelta * zoomSensitivity * zoomLevel;
+				zoomLevel = camera.orthographicSize + mouseScrollDelta * zoomSensitivity * zoomLevel;
 				SetZoomLevel(zoomLevel);
 				if (Mathf.Abs(mouseScrollDelta) != 0)
 				{

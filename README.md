@@ -28,10 +28,25 @@ Updates are checked automatically using the latest version specified [here](http
 0.20 -0.26 0.23 0.22 0 1.6 0.07 <br>
 -0.15 0.28 0.26 0.24 0 0.44 0.07
 
+### Navigation and User Control
+- on remaining idle (no mouse movement / keyboard input) for a particular time turns the menu off.
+- Mouse scroll on fractal changes zoom level.
+- Mouse pan changes camera position.
+
 ### Customize fractal
+
+#### Random Iteration Algorithm.
+1. Iteration control 
+   1. Speed. <br>
+   Number of times to run per frame.
+   1. Total iterations. <br>
+   Number of times to iterate.
+1. Point of origin. <br>
+Click to reset camera.
+
+#### Random Iteration Algorithm.
 1. Size of the fractal
-1. Iteration control
-   1. Random Iteration.
+1. Iteration control 
    1. Speed of iteration. <br>
    Number of pixels drawn per frame.
    1. Total iterations. <br>

@@ -30,6 +30,7 @@ public class DeterministicFractalGenerator : MonoBehaviour
         renderHolder = _renderHolder;
 
         latestRender = Instantiate(SquarePrefab, renderHolder.transform);
+        latestRender.GetComponent<SpriteRenderer>().color = settingsManager.fractalColor;
         latestRender.name = timesIterated.ToString();
         R1.Enqueue(latestRender);
 

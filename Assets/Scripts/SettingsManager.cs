@@ -54,19 +54,19 @@ public class SettingsManager : MonoBehaviour
 	{
 		instance = this;
 		CameraSize = Camera.main.orthographicSize;
-	}
-
-	private void Start()
-	{
-		ifsCode = new List<float[]>();
-		ifsCode.Add(new float[ifsRowLength]);
-
+		
 		ColorPalette _colorPalette = new ColorPalette();
 		_colorPalette.color = ColorPalette.ColorPaletteColors._FFFFFF;
 		SetBackgroundColorButtons(_colorPalette);
 
 		_colorPalette.color = ColorPalette.ColorPaletteColors._4D4D4D;
 		SetFractalColorButtons(_colorPalette);
+	}
+
+	private void Start()
+	{
+		ifsCode = new List<float[]>();
+		ifsCode.Add(new float[ifsRowLength]);
 
 		fractalOffset = new Vector2(Screen.width / 2, Screen.height / 2);
 	}

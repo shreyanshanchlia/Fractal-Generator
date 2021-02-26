@@ -3,7 +3,7 @@
 
 Latest Versions:
 win: 32.1
-mac: 00.0
-linux: 00.0
+mac: 32.1
+linux: 32.1
 web: 00.0
 android: 00.0

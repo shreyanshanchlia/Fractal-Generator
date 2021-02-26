@@ -2,7 +2,7 @@
 ## Format *platform*: {version name length}*version*
 
 Latest Versions:
-win: 31.0
+win: 32.0
 mac: 00.0
 linux: 00.0
 web: 00.0

@@ -3,6 +3,7 @@ This application can render [fractals](https://en.wikipedia.org/wiki/Fractal) by
 
 ### INPUT IFS code
 - Enter a, b, c, d, e, f, p in [IFS Matrix](https://en.wikipedia.org/wiki/Iterated_function_system) and add multiple rows for extending the matrix.
+[Here](https://github.com/shreyanshanchlia/FractalGenerator/blob/main/IFS%20Samples.md) are some sample IFS codes to try out.
 
 ## Features
 #### Update Check

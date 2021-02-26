@@ -5,5 +5,5 @@ Latest Versions:
 win: 32.1
 mac: 32.1
 linux: 32.1
-web: 00.0
-android: 00.0
+web: 32.1
+android: 32.1

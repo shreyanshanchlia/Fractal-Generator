@@ -5,16 +5,24 @@ This application can render [fractals](https://en.wikipedia.org/wiki/Fractal) by
 - Enter a, b, c, d, e, f, p in [IFS Matrix](https://en.wikipedia.org/wiki/Iterated_function_system) and add multiple rows for extending the matrix.
 
 ## Features
+#### Update Check
+Updates are checked automatically using the latest version specified [here](https://github.com/shreyanshanchlia/FractalGenerator/blob/main/LatestVersion.txt).
 
 ### Algorithms
 * [Random iteration algorithm](https://en.wikipedia.org/wiki/Randomized_algorithm)
+* [Deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm)
 
 ### Simplicity Features
 1. Copy the matrix to clipboard for redeploying / showing off :stuck_out_tongue_winking_eye:
 1. Paste the matrix from clipboard, and it will be automatically serialized into matrix for you.
 1. Delete the matrix for deploying a new matrix. </br>
 
-#### <b> Sample IFS Matrix (Barnsley Fern): </b><br>
+#### <b> Sample IFS Matrix (Terdragon) for deterministic algorithm: </b><br>
+0.5 -0.289 0.289 0.5 0 0 <br>
+0 0.577 -0.577 0 0.5 0.289 <br>
+0.5 -0.289 0.289 0.5 0.5 -0.289
+
+#### <b> Sample IFS Matrix (Barnsley Fern) for random iteration algorithm: </b><br>
 0 0 0 0.16 0 0 0.01 <br>
 0.85 0.04 -0.04 0.85 0 1.6 0.85 <br>
 0.20 -0.26 0.23 0.22 0 1.6 0.07 <br>

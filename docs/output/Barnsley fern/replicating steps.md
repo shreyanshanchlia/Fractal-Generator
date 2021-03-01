@@ -1,4 +1,4 @@
-How to make Sierpinski triangle?
+How to make Barnsley Fern?
 1. Run Fractals.exe
 2. Select "Random Iteration"
 3. Select colors or type the hex code.

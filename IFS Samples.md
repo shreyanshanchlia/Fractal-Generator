@@ -1,4 +1,6 @@
 ## Here are some sample IFS Codes to try out -
+- [Deterministic Algorithm](https://github.com/shreyanshanchlia/FractalGenerator/blob/main/IFS%20Samples.md#deterministic-algorithm)
+- [Random Iteration Algorithm](https://github.com/shreyanshanchlia/FractalGenerator/blob/main/IFS%20Samples.md#random-iteration-algorithm)
 
 # Deterministic Algorithm
 
@@ -91,8 +93,3 @@
 0.333 0 0 0.333 -0.577 -0.333 0.148 <br>
 0.333 0 0 0.333 0 -0.667 0.148 <br>
 0.333 0 0 0.333 0.577 -0.333 0.148
-
-
-
-
-

@@ -4,7 +4,7 @@ How to make Koch Curve?
 3. Select colors or type the hex code.
 4. Copy the ifs code present [here](https://github.com/shreyanshanchlia/FractalGenerator/blob/main/docs/output/Koch%20Curve/IFS.txt)
 5. Paste the IFS code in app.
-6. Set the size to a large value like 1000.
+6. Set the size to a large value like 1500.
 7. Put in the total iteration like 1000000.
 8. Change the origin to lower left to adjust for shape in the canvas.
 9. Run and wait for the result.

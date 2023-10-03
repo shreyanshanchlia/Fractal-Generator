@@ -10001,9 +10001,9 @@ RectTransform:
   m_Father: {fileID: 51920994}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 350, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 350, y: -97.10269}
   m_SizeDelta: {x: 700, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1803540615
@@ -10741,7 +10741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsManager: {fileID: 2011818157}
   iterationCountText: {fileID: 97292316}
-  SquarePrefab: {fileID: 6395184856085299234, guid: a46897c86cb4216478de53dec1c1037a,
+  SquarePrefab: {fileID: 6395184856085299234, guid: d11616573d1de81419794a873be4b829,
     type: 3}
   renderHolder: {fileID: 145781393}
 --- !u!4 &1984873510

@@ -60,7 +60,7 @@ Click on the plane to change the point of origin.
 - Change Fractal Color - Use already given presets or type your hex code
 
 ## Development Guidlines
-Made with unity 2019.4.17f1 <br>
+Made with unity <s>2019.4.17f1</s> 2023.2.10<br>
 For scripts, goto Assets -> Scripts. <br>
 Fork and write issue before pull request, if not a collaborator. <br>
 Readme commits will not be accepted unless very important. <br>

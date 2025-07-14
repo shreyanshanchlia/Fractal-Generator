@@ -1,0 +1,96 @@
+#pragma kernel AccumulateHits
+#pragma kernel NormalizeHits
+
+// Buffers
+RWStructuredBuffer<uint> HitBuffer;
+RWTexture2D<float4> Result;
+
+StructuredBuffer<float> IFSRules;
+StructuredBuffer<float2> SeedPoints;
+
+uint RuleCount;
+uint Iterations;
+uint Resolution;
+float2 DomainMin;
+float2 DomainMax;
+uint SeedCount;
+
+#define MaxThreads 1024
+#define MaxThreadsPerGroup 32
+
+// Map fractal-space point to pixel
+uint2 MapPointToPixel(float2 pt)
+{
+    float2 uv;
+    uv.x = (pt.x - DomainMin.x) / (DomainMax.x - DomainMin.x);
+    uv.y = (pt.y - DomainMin.y) / (DomainMax.y - DomainMin.y);
+    uv = clamp(uv, 0.0, 1.0);
+
+    return uint2(uv * (Resolution - 1));
+}
+
+// Simple LCG for pseudo-random numbers
+uint lcg(uint s)
+{
+    return 1664525u * s + 1013904223u;
+}
+
+float rand01(uint s)
+{
+    s = lcg(s);
+    return (float)(s & 0x00FFFFFFu) / (float)0x01000000u;
+}
+
+// Kernel: AccumulateHits
+[numthreads(MaxThreads,1,1)]
+void AccumulateHits(uint id : SV_DispatchThreadID)
+{
+    if (id >= SeedCount) return;
+
+    float2 pt = SeedPoints[id];
+
+    uint rng = id * 747796405u + 2891336453u; // Per-seed randomization
+
+    for (uint i = 0; i < Iterations; i++)
+    {
+        // Generate next random rule index
+        rng = lcg(rng + i);
+        uint ruleIndex = rng % RuleCount;
+
+        // Apply the chosen rule
+        uint offset = ruleIndex * 6;
+
+        float a = IFSRules[offset + 0];
+        float b = IFSRules[offset + 1];
+        float c = IFSRules[offset + 2];
+        float d = IFSRules[offset + 3];
+        float e = IFSRules[offset + 4];
+        float f = IFSRules[offset + 5];
+
+        float x = pt.x;
+        float y = pt.y;
+
+        pt.x = a * x + b * y + e;
+        pt.y = c * x + d * y + f;
+    }
+
+    // Map to pixel
+    uint2 pixel = MapPointToPixel(pt);
+    uint index = pixel.y * Resolution + pixel.x;
+
+    InterlockedAdd(HitBuffer[index], 1);
+}
+
+// Kernel: NormalizeHits
+[numthreads(MaxThreadsPerGroup, MaxThreadsPerGroup, 1)]
+void NormalizeHits(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= Resolution || id.y >= Resolution) return;
+
+    uint index = id.y * Resolution + id.x;
+    uint count = HitBuffer[index];
+
+    float brightness = (count > 0) ? 1 : 0.0;
+
+    Result[id.xy] = float4(brightness, brightness, brightness, brightness);
+}
